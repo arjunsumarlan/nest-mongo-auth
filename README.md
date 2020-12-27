@@ -19,6 +19,8 @@
 
 ## Flow
 
+![Flow diagram](https://github.com/arjunsumarlan/nest-mongo-auth/blob/master/flow-diagram.jpg?raw=true)
+
 This app contains 6 endpoints:
 1. **Create User**
 
