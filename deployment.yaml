@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nest-mongo-auth-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nest-mongo-auth
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nest-mongo-auth
+        env: development
+    spec:
+      containers:
+      - name: nest-mongo-auth
+        image: gcr.io/{{ YOUR GKE PROJECT ID }}/nest-mongo-auth:{{ YOUR TAG VERSION }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        env:
+          - name: PORT
+            value: "3000"
+          - name: LOG_LEVEL
+            value: "info"
+          - name: NODE_ENV
+            value: "development"
+          - name: JWT_SECRET
+            value: "user2020"
+          - name: EXPIRES_IN
+            value: "3600"
+          - name: DB_URL
+            value: "{{ YOUR MONGODB SRV CONNECTION STRING }}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nest-mongo-auth-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+  selector:
+    app: nest-mongo-auth

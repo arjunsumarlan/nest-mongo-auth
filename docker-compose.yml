@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+    command: yarn start:dev
+    env_file:
+      - .env
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    name: appnet
